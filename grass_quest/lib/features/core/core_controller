@@ -1,0 +1,86 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
+import 'package:get/get.dart';
+
+import '../../Strings.dart';
+import '../../routes/app_pages.dart';
+
+class CoreController extends GetxController {
+
+  CoreController();
+  var currentTabIndex = 0.obs;
+  var pageIndex = 0.obs;
+  var pageList = <String>[].obs;
+
+  String? featuredPage;
+  String? missionsPage;
+
+  void switchTab(int index) async {
+    currentTabIndex.value = index;
+
+    switch (index) {
+      case Strings.FEATURED_INDEX:
+        if (!pageList.contains(featuredPage)) {
+          pageList.add(featuredPage!);
+        }
+        pageIndex.value = pageList.indexOf(featuredPage);
+        break;
+      case Strings.MISSIONS_INDEX:
+        if (!pageList.contains(missionsPage)) {
+          pageList.add(missionsPage!);
+        }
+        pageIndex.value = pageList.indexOf(missionsPage);
+        break;
+      default:
+    }
+  }
+
+  Route? onGenerateRoute(RouteSettings settings, String tabItem) {
+    log("Tab: $tabItem");
+    if (tabItem == Routes.FEATURED) {
+      return getPageRoute(
+        settings,
+        const Placeholder(),
+        //binding: DiscoverBinding(),
+      );
+    } else if (tabItem == Routes.MISSIONS) {
+      return getPageRoute(
+        settings,
+        const Placeholder(),
+        //binding: LikesBinding(),
+      );
+    } 
+    return null;
+  }
+
+  GetPageRoute getPageRoute(RouteSettings routeSettings, Widget page,
+      {Bindings? binding}) {
+    return GetPageRoute(
+      settings: routeSettings,
+      page: () => page,
+      binding: binding,
+    );
+  }
+
+  Future<bool> onWillPop() {
+    EasyLoading.showToast(Strings.exit);
+    return Future.value(true);
+  }
+
+  @override
+  void onInit() {
+    
+      featuredPage = Routes.FEATURED;
+      missionsPage = Routes.MISSIONS;
+      pageList.add(featuredPage!);
+    super.onInit();
+  }
+
+  @override
+  Future<void> refresh() async {
+    super.refresh();
+  }
+}
