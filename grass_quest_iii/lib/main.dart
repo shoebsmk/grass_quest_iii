@@ -443,7 +443,7 @@ class Profile extends StatelessWidget {
               padding: EdgeInsets.all(16.0),
               child: CircleAvatar(
                 radius: 50, // Adjust size as needed
-                backgroundImage: AssetImage('assets/images/map.jpg'), // Replace with user's image
+                backgroundImage: AssetImage('assets/images/shoeb.jpg'), // Replace with user's image
               ),
             ),
             const Padding(
